@@ -4,16 +4,11 @@
 /*
 */
 
-class Sphere {
+class Sphere : public Shape{
 private:
-    Vector origin;
-    double radius, diffuseCoefficient;
+    double radius;
 public:
-    Sphere(Vector origin, double radius, double diffuseCoefficient) : origin(origin), radius(radius), diffuseCoefficient(diffuseCoefficient){}
-
-    double getDiffuseCoefficient(){
-        return(this->diffuseCoefficient);
-    }
+    Sphere(Vector origin, double diffuseCoefficient, double radius) : Shape(origin, diffuseCoefficient), radius(radius) {}
 
     Vector getNormal(Vector impact){
         return impact.subtract(this->origin).unit();

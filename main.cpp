@@ -4,6 +4,7 @@
 
 #include "vector.hpp"
 #include "line.hpp"
+#include "shape.hpp"
 #include "sphere.hpp"
 #include "light.hpp"
 
@@ -17,11 +18,11 @@ double shader(Sphere sphere, Vector point, Light light);
 int main()
 {
     Vector sphereOrigin(0,0,1600);
-    Sphere sphere(sphereOrigin, 400.0, 0.2);
+    Sphere sphere(sphereOrigin, 0.5, 400.0);
 
     Vector viewpoint(0,0,0);
 
-    Vector lightOrigin(-800,0,800);
+    Vector lightOrigin(-800,400,800);
     Light light(lightOrigin, 100.0);
 
     const unsigned int W = 800;
