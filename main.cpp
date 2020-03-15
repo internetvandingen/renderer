@@ -11,15 +11,15 @@
 #include <math.h>
 
 
-double getPixel(int i, int j, double w, double h, Vector viewpoint, Sphere sphere, Light light);
-void trace(sf::Uint8* pixels, unsigned int W, unsigned int H, Vector viewpoint, Sphere sphere, Light light);
-double shader(Sphere sphere, Vector point, Light light);
+double getPixel(int i, int j, double w, double h, Vector viewpoint, Shape *shape, Light light);
+void trace(sf::Uint8* pixels, unsigned int W, unsigned int H, Vector viewpoint, Shape *shape, Light light);
+double shader(Shape *shape, Vector point, Light light);
 
 int main()
 {
     Vector sphereOrigin(0,0,1600);
     Sphere sphere(sphereOrigin, 0.5, 400.0);
-
+    Shape * p_sphere = &sphere;
     Vector viewpoint(0,0,0);
 
     Vector lightOrigin(-800,400,800);
@@ -49,7 +49,7 @@ int main()
 
         sf::Sprite sprite(texture); // needed to draw the texture on screen
 
-        trace(pixels, W, H, viewpoint, sphere, light);
+        trace(pixels, W, H, viewpoint, p_sphere, light);
         texture.update(pixels);
 
         window.clear(sf::Color::Black);
@@ -71,18 +71,18 @@ int main()
     return 0;
 }
 
-double getPixel(int i, int j, double w, double h, Vector viewpoint, Sphere sphere, Light light){
+double getPixel(int i, int j, double w, double h, Vector viewpoint, Shape *shape, Light light){
     double value = 0.0;
     Vector pixelPoint(w/2-i, h/2-j, 800.0);
     Line pixelLine(viewpoint, pixelPoint);
-    Vector* intersect = sphere.intersect(pixelLine, false);
+    Vector* intersect = shape->intersect(pixelLine, false);
     if (intersect){
         // check if a lightsource can be seen from here
         Vector lightToIntersectDirection = intersect->subtract(light.getOrigin());
         Line lightToIntersect(light.getOrigin(), lightToIntersectDirection);
-        Vector* possibleIntersectLight = sphere.intersect(lightToIntersect, true);
+        Vector* possibleIntersectLight = shape->intersect(lightToIntersect, true);
         if (possibleIntersectLight == nullptr){
-            value += shader(sphere, *intersect, light);
+            value += shader(shape, *intersect, light);
         }
         delete possibleIntersectLight;
     }
@@ -91,13 +91,13 @@ double getPixel(int i, int j, double w, double h, Vector viewpoint, Sphere spher
     return value;
 }
 
-void trace(sf::Uint8* pixels, unsigned int W, unsigned int H, Vector viewpoint, Sphere sphere, Light light){
+void trace(sf::Uint8* pixels, unsigned int W, unsigned int H, Vector viewpoint, Shape *shape, Light light){
     double* values = new double[(int)(W*H)];
     int maxIndex = 0;
     for (int i=0; i<(int)(W*H); i++){
         int y = i/W;
         int x = i%W;
-        values[i] = getPixel(x, y, (double)W, (double)H, viewpoint, sphere, light);
+        values[i] = getPixel(x, y, (double)W, (double)H, viewpoint, shape, light);
         if(values[i] > values[maxIndex]){
             maxIndex = i;
         }
@@ -117,11 +117,11 @@ void trace(sf::Uint8* pixels, unsigned int W, unsigned int H, Vector viewpoint, 
     }
 }
 
-double shader(Sphere sphere, Vector point, Light light){
+double shader(Shape * shape, Vector point, Light light){
     Vector lightSource = light.getOrigin();
     Vector pointToLightSource = lightSource.subtract(point).unit();
-    double dotproduct = sphere.getNormal(point).dot(pointToLightSource);
-    double brightness = sphere.getDiffuseCoefficient() * light.getIntensity() * std::max(0.0, dotproduct);
+    double dotproduct = shape->getNormal(point).dot(pointToLightSource);
+    double brightness = shape->getDiffuseCoefficient() * light.getIntensity() * std::max(0.0, dotproduct);
     return brightness;
 }
 
