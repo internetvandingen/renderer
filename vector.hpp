@@ -1,6 +1,8 @@
 #ifndef __VECTOR_H_INCLUDED__
 #define __VECTOR_H_INCLUDED__
 
+#include <math.h>
+
 /*
 Vector is made of three numbers: one for each coordinte x,y,z
 It can represent either a direction or a point in space
@@ -31,8 +33,7 @@ std::ostream& operator<<(std::ostream& os, Vector vec){
 }
 
 Vector Vector::copy(){
-    Vector objCopy(this->getX(), this->getY(), this->getZ(), this->getLength());
-    return objCopy;
+    return Vector(this->getX(), this->getY(), this->getZ(), this->getLength());
 }
 
 // constructors
@@ -40,18 +41,15 @@ Vector::Vector(double x, double y, double z) : x(x), y(y), z(z), length(sqrt(x*x
 Vector::Vector(double x, double y, double z, double length) : x(x), y(y), z(z), length(length){}
 
 Vector Vector::add(Vector other){
-    Vector result(this->x+other.getX(), this->y+other.getY(), this->z+other.getZ());
-    return result;
+    return Vector(this->x+other.getX(), this->y+other.getY(), this->z+other.getZ());
 }
 
 Vector Vector::multiply(double number){
-    Vector result(this->x*number, this->y*number, this->z*number, this->length*number);
-    return result;
+    return Vector(this->x*number, this->y*number, this->z*number, this->length*number);
 }
 
 Vector Vector::subtract(Vector other){
-    Vector result(this->x-other.getX(), this->y-other.getY(), this->z-other.getZ());
-    return result;
+    return Vector(this->x-other.getX(), this->y-other.getY(), this->z-other.getZ());
 }
 
 double Vector::dot(Vector other){
@@ -59,8 +57,7 @@ double Vector::dot(Vector other){
 }
 
 Vector Vector::unit(){
-    Vector result(this->x/this->length, this->y/this->length, this->z/this->length, 1.0);
-    return result;
+    return Vector(this->x/this->length, this->y/this->length, this->z/this->length, 1.0);
 }
 
 double Vector::getX(){return(this->x);}

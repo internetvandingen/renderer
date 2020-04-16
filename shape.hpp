@@ -1,7 +1,6 @@
 #ifndef __SHAPE_H_INCLUDED__
 #define __SHAPE_H_INCLUDED__
 
-
 class Shape {
 protected:
     double diffuseCoefficient;

@@ -1,9 +1,6 @@
 #ifndef __SPHERE_H_INCLUDED__
 #define __SPHERE_H_INCLUDED__
 
-/*
-*/
-
 class Sphere : public Shape{
 private:
     double radius;
@@ -17,8 +14,7 @@ public:
     Vector* intersect(Line line, bool strict){
         // returns closest intersection of this object with line (closest to origin of line)
         Vector lineOriginToSphereOrigin = this->origin.subtract(line.getOrigin());
-        Vector lineDirection = line.getDirection();
-        Vector lineUnitDirection = lineDirection.unit();
+        Vector lineUnitDirection = line.getDirection().unit();
 
         Vector lineOrthogonalSphere = lineUnitDirection.multiply(lineOriginToSphereOrigin.dot(lineUnitDirection));
         Vector diff = lineOrthogonalSphere.subtract(lineOriginToSphereOrigin);

@@ -9,10 +9,8 @@ direction is the directional vector along which the line points
 
 class Line {
 private:
-    //int direction;
     Vector origin, direction;
 public:
-    //Vector origin, Vector direction
     Line(Vector origin, Vector direction) : origin(origin), direction(direction) {}
 
     Vector getDirection(){
