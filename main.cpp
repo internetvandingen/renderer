@@ -19,14 +19,15 @@ int main()
 
     Vector viewpoint(0,0,0);
     Sphere sphere0(Vector(0,0,1600), 0.5, 400.0);
-    Sphere sphere1(Vector(-400,-200,1600), 0.5, 200.0);
-    Light light(Vector(-800,400,800), 100.0);
+    Sphere sphere1(Vector(-200,-200,1200), 0.5, 200.0);
+    Light light0(Vector(-800,0,0), 100.0);
+    Light light1(Vector(1600,800,0), 40.0);
 
     Scene scene(W, H, viewpoint);
     scene.addObject(sphere0);
     scene.addObject(sphere1);
-    scene.addLight(light);
-
+    scene.addLight(light0);
+    scene.addLight(light1);
 
     sf::Texture texture;
     texture.create(W, H);

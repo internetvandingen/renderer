@@ -10,7 +10,7 @@ public:
 
     virtual Vector getNormal(Vector impact) = 0;
 
-    virtual Vector* intersect(Line line, bool strict) = 0;
+    virtual double intersect(Line line) = 0;
 
     double getDiffuseCoefficient(){
         return(this->diffuseCoefficient);

@@ -61,35 +61,39 @@ public:
         Vector pixelPoint(w/2-i, h/2-j, 800.0);
         Line pixelLine(*this->viewpoint, pixelPoint);
 
-        Vector* shapeIntersect = nullptr;
-        Shape* shape = nullptr;
-        double minDistance = std::numeric_limits<double>::max();
-        for (auto const& tempShape: this->shapeArray) {
-            Vector* tempShapeIntersect = tempShape->intersect(pixelLine, false);
-            if (tempShapeIntersect) {
-                Vector viewpointToIntersect = tempShapeIntersect->subtract(*this->viewpoint);
-                if (viewpointToIntersect.getLength() < minDistance) {
-                    shape = tempShape;
-                    shapeIntersect = tempShapeIntersect;
-                } else {
-                    delete tempShapeIntersect;
-                }
-            } else {
-                delete tempShapeIntersect;
+        Shape * shape;
+        double shapeIntersect = std::numeric_limits<double>::max();
+        for (Shape* const& tempShape: this->shapeArray) {
+            double tempShapeIntersect = tempShape->intersect(pixelLine);
+            if (tempShapeIntersect > 0 && tempShapeIntersect < shapeIntersect) {
+                shapeIntersect = tempShapeIntersect;
+                shape = tempShape;
             }
         }
 
-        if (shapeIntersect){
+        if (shape){
             // check if a lightsource can be seen from here
-            Vector lightToIntersectDirection = shapeIntersect->subtract(light->getOrigin());
-            Line lightToIntersect(light->getOrigin(), lightToIntersectDirection);
-            Vector* possibleIntersectLight = shape->intersect(lightToIntersect, true);
-            if (possibleIntersectLight == nullptr){
-                value += shader(shape, shapeIntersect, light);
+            Vector toShapeIntersect = pixelLine.getOrigin().add(pixelLine.getDirection().multiply(shapeIntersect));
+
+            for (Light* const& tempLight: this->lightArray) {
+                Vector lightToIntersectDirection = toShapeIntersect.subtract(tempLight->getOrigin());
+                Line lightToIntersect(tempLight->getOrigin(), lightToIntersectDirection);
+                bool blocked = false;
+                for (Shape* const& tempShape: this->shapeArray) {
+                    if (tempShape == shape) {
+                        continue;
+                    }
+                    double possibleIntersectLight = tempShape->intersect(lightToIntersect);
+                    if (possibleIntersectLight > 0 && possibleIntersectLight < 1){
+                        blocked = true;
+                        break;
+                    }
+                }
+                if (!blocked) {
+                    value += shader(shape, toShapeIntersect, tempLight);
+                }
             }
-            delete possibleIntersectLight;
         }
-        delete shapeIntersect;
 
         return value;
     }
