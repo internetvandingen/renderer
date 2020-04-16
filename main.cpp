@@ -18,11 +18,13 @@ int main()
     window.setFramerateLimit(60);
 
     Vector viewpoint(0,0,0);
-    Sphere sphere(Vector(0,0,1600), 0.5, 400.0);
+    Sphere sphere0(Vector(0,0,1600), 0.5, 400.0);
+    Sphere sphere1(Vector(-400,-200,1600), 0.5, 200.0);
     Light light(Vector(-800,400,800), 100.0);
 
     Scene scene(W, H, viewpoint);
-    scene.addObject(sphere);
+    scene.addObject(sphere0);
+    scene.addObject(sphere1);
     scene.addLight(light);
 
 
@@ -40,7 +42,7 @@ int main()
         }
 
         window.clear(sf::Color::Black);
-
+        viewpoint = viewpoint.add(Vector(-10,0,0));
         scene.updatePixels();
         texture.update(scene.getPixels());
 

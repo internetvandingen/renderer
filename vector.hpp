@@ -10,7 +10,7 @@ It can represent either a direction or a point in space
 
 class Vector {
 private:
-    const double x, y, z, length;
+    double x, y, z, length;
 public:
     Vector(double x, double y, double z);
     Vector(double x, double y, double z, double length);

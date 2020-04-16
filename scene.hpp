@@ -7,16 +7,16 @@ class Scene {
 private:
     const unsigned int W, H;
     sf::Uint8* pixels;
-    Vector viewpoint;
-    std::vector<Sphere*> sphereArray;
+    Vector* viewpoint;
+    std::vector<Shape*> shapeArray;
     std::vector<Light*> lightArray;
 public:
-    Scene(const unsigned int W, const unsigned int H, Vector viewpoint) : W(W), H(H), viewpoint(viewpoint) {
+    Scene(const unsigned int W, const unsigned int H, Vector &viewpoint) : W(W), H(H), viewpoint(&viewpoint) {
          this->pixels = new sf::Uint8[W*H*4];
     }
 
-    void addObject(Sphere &sphere) {
-        this->sphereArray.push_back(&sphere);
+    void addObject(Shape &shape) {
+        this->shapeArray.push_back(&shape);
     }
 
     void addLight(Light &light) {
@@ -53,15 +53,32 @@ public:
     }
 
     double getPixel(int i, int j){
-        Shape *shape = this->sphereArray[0];
         Light *light = this->lightArray[0];
         double w = (double)this->W;
         double h = (double)this->H;
         double value = 0.0;
 
         Vector pixelPoint(w/2-i, h/2-j, 800.0);
-        Line pixelLine(this->viewpoint, pixelPoint);
-        Vector* shapeIntersect = shape->intersect(pixelLine, false);
+        Line pixelLine(*this->viewpoint, pixelPoint);
+
+        Vector* shapeIntersect = nullptr;
+        Shape* shape = nullptr;
+        double minDistance = std::numeric_limits<double>::max();
+        for (auto const& tempShape: this->shapeArray) {
+            Vector* tempShapeIntersect = tempShape->intersect(pixelLine, false);
+            if (tempShapeIntersect) {
+                Vector viewpointToIntersect = tempShapeIntersect->subtract(*this->viewpoint);
+                if (viewpointToIntersect.getLength() < minDistance) {
+                    shape = tempShape;
+                    shapeIntersect = tempShapeIntersect;
+                } else {
+                    delete tempShapeIntersect;
+                }
+            } else {
+                delete tempShapeIntersect;
+            }
+        }
+
         if (shapeIntersect){
             // check if a lightsource can be seen from here
             Vector lightToIntersectDirection = shapeIntersect->subtract(light->getOrigin());
