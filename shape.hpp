@@ -1,6 +1,9 @@
 #ifndef __SHAPE_H_INCLUDED__
 #define __SHAPE_H_INCLUDED__
 
+#include "vector.hpp"
+#include "line.hpp"
+
 class Shape {
 protected:
     double diffuseCoefficient;

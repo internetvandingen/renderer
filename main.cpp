@@ -1,13 +1,9 @@
 #include <SFML/Graphics.hpp>
 
-#include <iostream>
-
-#include "vector.hpp"
-#include "line.hpp"
-#include "shape.hpp"
+#include "scene.hpp"
 #include "sphere.hpp"
 #include "light.hpp"
-#include "scene.hpp"
+#include "vector.hpp"
 
 int main()
 {

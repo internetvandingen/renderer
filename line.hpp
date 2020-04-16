@@ -1,6 +1,9 @@
 #ifndef __LINE_H_INCLUDED__
 #define __LINE_H_INCLUDED__
 
+#include "vector.hpp"
+#include "line.hpp"
+
 /*
 Line is made of two Vector objects: origin and direction
 origin represents the point in space where the line starts (originates)
