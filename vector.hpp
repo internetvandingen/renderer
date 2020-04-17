@@ -19,6 +19,7 @@ public:
     Vector multiply(double number);
     Vector subtract(Vector other);
     double dot(Vector other);
+    Vector cross(Vector other);
     Vector unit();
     Vector copy();
     double getX();

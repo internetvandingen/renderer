@@ -29,6 +29,14 @@ double Vector::dot(Vector other){
     return this->x*other.getX() + this->y*other.getY() + this->z*other.getZ();
 }
 
+Vector Vector::cross(Vector other) {
+    return Vector(
+                  this->y*other.z - this->z*other.y,
+                  this->z*other.x - this->x*other.z,
+                  this->x*other.y - this->y*other.x
+                  );
+}
+
 Vector Vector::unit(){
     return Vector(this->x/this->length, this->y/this->length, this->z/this->length, 1.0);
 }
