@@ -39,6 +39,7 @@ void Scene::updatePixels(){
         this->pixels[i+2] = value;
         this->pixels[i+3] = 255;
     }
+    delete values;
 }
 
 double Scene::getPixel(int i, int j){
