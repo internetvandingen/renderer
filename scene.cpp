@@ -51,16 +51,18 @@ double Scene::getPixel(int i, int j){
     Line pixelLine(*this->viewpoint, pixelPoint);
 
     Shape * shape;
+    bool hasIntersect = false;
     double shapeIntersect = std::numeric_limits<double>::max();
     for (Shape* const& tempShape: this->shapeArray) {
         double tempShapeIntersect = tempShape->intersect(pixelLine);
         if (tempShapeIntersect > 0 && tempShapeIntersect < shapeIntersect) {
             shapeIntersect = tempShapeIntersect;
             shape = tempShape;
+            hasIntersect = true;
         }
     }
 
-    if (shape){
+    if (hasIntersect){
         // check if a lightsource can be seen from here
         Vector toShapeIntersect = pixelLine.getOrigin().add(pixelLine.getDirection().multiply(shapeIntersect));
 
