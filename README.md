@@ -16,7 +16,7 @@ Ray tracing is a technique to render physical objects (e.g. a sphere) to an imag
 Light that hits the camera is traced back to the objects they scattered from.
 Example image output of scene with 2 spheres on a flat surface with 2 light sources behind the camera, one on the right and a weaker one on the left.
 
-![example_output](https://lennartknoll.nl/wp-content/uploads/2020/04/frame34-768x576.png)
+![example_output](https://lennartknoll.nl/wp-content/uploads/2020/05/frame54.png)
 
 ## Dependencies
 Use of external libraries is minimized: pixels are individually written to the screen.
