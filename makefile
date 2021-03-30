@@ -30,7 +30,7 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 
 .PHONY: clean run
 clean:
-	rm -r $(BUILD_DIR)
+	rm -rf $(BUILD_DIR)
 
 # in order to run it, SFML path is exported only for the command that comes after it
 # then run the target executable ./bld/exe
