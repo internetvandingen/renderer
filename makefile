@@ -6,6 +6,7 @@ BUILD_DIR := ./bld
 SRC_DIRS := ./src
 TARGET_EXEC := exe
 CPPFLAGS += -I "$(SFMLPATH)/include/"
+CPPFLAGS += -I "./inc/"
 LDFLAGS += -L "$(SFMLPATH)/lib" -lsfml-graphics -lsfml-window -lsfml-system
 
 
