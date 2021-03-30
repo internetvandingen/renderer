@@ -21,3 +21,9 @@ Example image output of scene with 2 spheres on a flat surface with 2 light sour
 ## Dependencies
 Use of external libraries is minimized: pixels are individually written to the screen.
 - [SFML](https://www.sfml-dev.org/) 2.5
+
+## How to run
+- Download SFML
+- Specify the SFML directory in the makefile
+- Compile by executing the command: `make`
+- Run the program by executing the command: `make run`
